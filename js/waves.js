@@ -14,31 +14,40 @@ let app = new Application({
     resolution: 1
 });
 
-let circle;
+let outerCircle;
+let innerCircle;
 
 function setup() {
-    circle = createCircle(appWidth / 2, appHeight / 2, 10);
-    app.stage.addChild(circle);
+    outerCircle = createCircle(appWidth / 2, appHeight / 2, 10, 0xFFFFFF);
+    innerCircle = createCircle(appWidth / 2, appHeight / 2, 9, 0x000000);
+
+    app.stage.addChild(outerCircle);
+    app.stage.addChild(innerCircle);
     app.ticker.add(delta => gameloop(delta));
 }
 
 function gameloop(delta) {
-    let newRadius = circle.width + 1;
-    circle.destroy();
-    circle = createCircle(appWidth / 2, appWidth / 2, newRadius);
-    app.stage.addChild(circle);
+    if (outerCircle.width < 400 && innerCircle.width < 400) {
+        increaseCircleSize(outerCircle);
+        increaseCircleSize(innerCircle);
+    }
 }
 
-function createCircle(x_position, y_position, radius) {
+function createCircle(x_position, y_position, radius, color) {
     let circle = new Graphics();
-    circle.lineStyle(2, 0xFFFFFF, 1);
-    circle.beginFill(0x000000);
+    circle.beginFill(color);
     circle.drawCircle(0, 0, radius);
     circle.endFill();
     circle.x = x_position;
     circle.y = y_position;
     
     return circle;
+}
+
+function increaseCircleSize(circle) {
+    var sizeIncrement = 2;
+    circle.width += sizeIncrement;
+    circle.height += sizeIncrement;
 }
 
 setup();
