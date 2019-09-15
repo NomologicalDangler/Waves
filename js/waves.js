@@ -45,7 +45,7 @@ function createCircle(x_position, y_position, radius, color) {
 }
 
 function increaseCircleSize(circle) {
-    var sizeIncrement = 2;
+    let sizeIncrement = 3;
     circle.width += sizeIncrement;
     circle.height += sizeIncrement;
 }
