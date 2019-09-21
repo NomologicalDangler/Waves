@@ -14,19 +14,20 @@ let app = new Application({
     resolution: 1
 });
 
-let wave;
-let wave2;
+let waves = [];
 
 function setup() {
-    wave = new Wave(appWidth / 2, appHeight / 2, 10);
-    wave2 = new Wave(200, 300 / 2, 10);
+    for (let i = 0; i < 3; i++) {
+        // Select the coordinates at random.
+        let x_coordinate = Math.floor(Math.random() * appWidth);
+        let y_coordinate = Math.floor(Math.random() * appHeight);
+        let wave = new Wave(x_coordinate, y_coordinate, 3);
 
-    for (let gc of wave.getGraphicalComponents()) {
-        app.stage.addChild(gc);
-    }
+        waves.push(wave);
 
-    for (let gc of wave2.getGraphicalComponents()) {
-        app.stage.addChild(gc);
+        for (let gc of wave.getGraphicalComponents()) {
+            app.stage.addChild(gc);
+        }
     }
 
     app.ticker.add(delta => gameloop(delta));
@@ -34,12 +35,12 @@ function setup() {
 
 function gameloop(delta) {
 
-    if (wave.radius < 200 ) {
-        wave.expand();
-    }
-
-    if (wave2.radius < 150) {
-        wave2.expand();
+    // Make the waves grow no more than their maximum size.
+    
+    for (let wave of waves) {
+        if (wave.radius < 200 ) {
+            wave.expand();
+        }    
     }
 }
 
@@ -50,7 +51,6 @@ document.body.appendChild(app.view);
 
 
 function Wave(x_coordinate, y_coordinate, radius) {
-    console.log("Creating wave!");
     this.x_coordinate = x_coordinate;
     this.y_coordinate = y_coordinate;
     this.radius = radius;
@@ -66,10 +66,10 @@ function Wave(x_coordinate, y_coordinate, radius) {
     };
 
     this.outerCircle = this.createCircle(0xFFFFFF, this.radius);
-    this.innerCircle = this.createCircle(0x000000, this.radius - 1);
+    this.innerCircle = this.createCircle(0x000000, this.radius - 2);
 
-    this.outerCircle.alpha = 0.5;
-    this.innerCircle.alpha  = 1;
+    this.outerCircle.alpha = 0.75;
+    this.innerCircle.alpha  = 0.3;
 
     this.expand = function() {
         let sizeIncrement = 4;
