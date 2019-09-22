@@ -14,7 +14,7 @@ let app = new Application({
     resolution: 1
 });
 
-let waves = [];
+let waves = new Set();
 
 function setup() {
 
@@ -27,7 +27,7 @@ function setup() {
 
         let wave = new Wave(x_coordinate, y_coordinate, max_radius);
 
-        waves.push(wave);
+        waves.add(wave);
 
         for (let gc of wave.getGraphicalComponents()) {
             app.stage.addChild(gc);
@@ -40,11 +40,33 @@ function setup() {
 function gameloop(delta) {
 
     // Make the waves grow no more than their maximum size.
-    
     for (let wave of waves) {
         if (wave.radius < wave.max_radius ) {
             wave.expand();
-        }    
+        } else {
+            
+            // Remove the wave from the screen.
+            for (let gc of wave.getGraphicalComponents()) {
+                app.stage.removeChild(gc);
+            }
+
+            // Remove the wave from the set of waves.
+            waves.delete(wave);
+
+            // Add a new wave
+            // Select the coordinates at random.
+            let x_coordinate = Math.floor(Math.random() * appWidth);
+            let y_coordinate = Math.floor(Math.random() * appHeight);
+            let max_radius = Math.floor(Math.random() * 100 + 50);
+
+            let newWave = new Wave(x_coordinate, y_coordinate, max_radius);
+
+            waves.add(newWave);
+
+            for (let gc of wave.getGraphicalComponents()) {
+                app.stage.addChild(gc);
+            }
+        }
     }
 }
 
