@@ -63,7 +63,7 @@ function gameloop(delta) {
 
             waves.add(newWave);
 
-            for (let gc of wave.getGraphicalComponents()) {
+            for (let gc of newWave.getGraphicalComponents()) {
                 app.stage.addChild(gc);
             }
         }
@@ -99,7 +99,7 @@ function Wave(x_coordinate, y_coordinate, max_radius) {
     this.innerCircle.alpha  = 0.3;
 
     this.expand = function() {
-        let sizeIncrement = 4;
+        let sizeIncrement = 2;
         
         this.radius += sizeIncrement;
 
