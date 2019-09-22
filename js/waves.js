@@ -2,8 +2,8 @@
 let Application = PIXI.Application;
 let Graphics = PIXI.Graphics;
 
-let appWidth = 500;
-let appHeight = 500;
+let appWidth = 1500;
+let appHeight = 750;
 
 // Initiate the application.
 let app = new Application({
@@ -17,11 +17,15 @@ let app = new Application({
 let waves = [];
 
 function setup() {
-    for (let i = 0; i < 3; i++) {
+
+    for (let i = 0; i < 10; i++) {
+        
         // Select the coordinates at random.
         let x_coordinate = Math.floor(Math.random() * appWidth);
         let y_coordinate = Math.floor(Math.random() * appHeight);
-        let wave = new Wave(x_coordinate, y_coordinate, 3);
+        let max_radius = Math.floor(Math.random() * 100 + 50);
+
+        let wave = new Wave(x_coordinate, y_coordinate, max_radius);
 
         waves.push(wave);
 
@@ -38,7 +42,7 @@ function gameloop(delta) {
     // Make the waves grow no more than their maximum size.
     
     for (let wave of waves) {
-        if (wave.radius < 200 ) {
+        if (wave.radius < wave.max_radius ) {
             wave.expand();
         }    
     }
@@ -50,10 +54,11 @@ setup();
 document.body.appendChild(app.view);
 
 
-function Wave(x_coordinate, y_coordinate, radius) {
+function Wave(x_coordinate, y_coordinate, max_radius) {
     this.x_coordinate = x_coordinate;
     this.y_coordinate = y_coordinate;
-    this.radius = radius;
+    this.radius = 3; // Initial radius.
+    this.max_radius = max_radius;
 
     this.createCircle = function(color, radius) {
         let circle = new Graphics();
