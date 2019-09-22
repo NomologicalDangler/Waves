@@ -14,6 +14,8 @@ let app = new Application({
     resolution: 1
 });
 
+let colors = [0x3c96d6, 0xfca4fa, 0x33de6c, 0xde9014];
+
 let waves = new Set();
 
 function setup() {
@@ -92,8 +94,10 @@ function Wave(x_coordinate, y_coordinate, max_radius) {
         return circle;
     };
 
-    this.outerCircle = this.createCircle(0xFFFFFF, this.radius);
-    this.innerCircle = this.createCircle(0x000000, this.radius - 2);
+    let randomColor = colors[Math.floor(Math.random() * colors.length)];
+
+    this.outerCircle = this.createCircle(randomColor, this.radius);
+    this.innerCircle = this.createCircle(randomColor, this.radius - 2);
 
     this.outerCircle.alpha = 0.75;
     this.innerCircle.alpha  = 0.3;
