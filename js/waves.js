@@ -2,8 +2,10 @@
 let Application = PIXI.Application;
 let Graphics = PIXI.Graphics;
 
-let appWidth = 1500;
-let appHeight = 750;
+// let appWidth = 1500;
+// let appHeight = 750;
+let appWidth = window.innerWidth;
+let appHeight = window.innerHeight;
 
 // Initiate the application.
 let app = new Application({
@@ -13,6 +15,11 @@ let app = new Application({
     transparent: false,
     resolution: 1
 });
+
+app.renderer.view.style.position = "absolute";
+app.renderer.view.style.display = "block";
+app.renderer.autoResize = true;
+app.renderer.resize(window.innerWidth, window.innerHeight);
 
 let waves = new Set();
 
