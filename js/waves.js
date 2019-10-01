@@ -103,7 +103,7 @@ function Wave(x_coordinate, y_coordinate, max_radius) {
     this.innerCircle.alpha  = 0.3;
 
     this.expand = function() {
-        let sizeIncrement = 2;
+        let sizeIncrement = 5;
         
         this.radius += sizeIncrement;
 
