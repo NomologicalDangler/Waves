@@ -93,6 +93,9 @@ function Wave(x_coordinate, y_coordinate, max_radius) {
         let circle = new Graphics();
         circle.beginFill(color);
         circle.drawCircle(0, 0, radius);
+        circle.beginHole();
+        circle.drawCircle(0, 0, radius - 0.1);
+        circle.endHole();
         circle.endFill();
         circle.x = this.x_coordinate;
         circle.y = this.y_coordinate;
@@ -100,10 +103,6 @@ function Wave(x_coordinate, y_coordinate, max_radius) {
     };
 
     this.outerCircle = this.createCircle(0xFFFFFF, this.radius);
-    this.innerCircle = this.createCircle(0x000000, this.radius - 2);
-
-    this.outerCircle.alpha = 0.75;
-    this.innerCircle.alpha  = 0.3;
 
     this.expand = function() {
         let sizeIncrement = 2;
@@ -112,13 +111,10 @@ function Wave(x_coordinate, y_coordinate, max_radius) {
 
         this.outerCircle.width += sizeIncrement;
         this.outerCircle.height += sizeIncrement;
-        
-        this.innerCircle.width += sizeIncrement;
-        this.innerCircle.height += sizeIncrement;
     }
 
     this.getGraphicalComponents = function() {
-        return [this.outerCircle, this.innerCircle];
+        return [this.outerCircle];
     }
 
 }
