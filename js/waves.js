@@ -26,16 +26,13 @@ let waves = new Set();
 function setup() {
 
     for (let i = 0; i < 10; i++) {
-        
-        // Select the coordinates at random.
-        let x_coordinate = Math.floor(Math.random() * appWidth);
-        let y_coordinate = Math.floor(Math.random() * appHeight);
-        let max_radius = Math.floor(Math.random() * 100 + 50);
 
-        let wave = new Wave(x_coordinate, y_coordinate, max_radius);
+        // Create a new wave at random coordinates and random max radius.
+        let wave = new Wave();
 
         waves.add(wave);
 
+        // Draw wave on the screen.
         for (let gc of wave.getGraphicalComponents()) {
             app.stage.addChild(gc);
         }
@@ -60,13 +57,8 @@ function gameloop(delta) {
             // Remove the wave from the set of waves.
             waves.delete(wave);
 
-            // Add a new wave
-            // Select the coordinates at random.
-            let x_coordinate = Math.floor(Math.random() * appWidth);
-            let y_coordinate = Math.floor(Math.random() * appHeight);
-            let max_radius = Math.floor(Math.random() * 100 + 50);
-
-            let newWave = new Wave(x_coordinate, y_coordinate, max_radius);
+            // Add a new wave starting at a random position.
+            let newWave = new Wave();
 
             waves.add(newWave);
 
@@ -84,10 +76,12 @@ document.body.appendChild(app.view);
 
 
 function Wave(x_coordinate, y_coordinate, max_radius) {
-    this.x_coordinate = x_coordinate;
-    this.y_coordinate = y_coordinate;
+    
+    this.x_coordinate = x_coordinate || generateRandomCoordinates()[0];
+    this.y_coordinate = y_coordinate || generateRandomCoordinates()[1];
+    this.max_radius = max_radius || generateRandomMaximumRadius();
+
     this.radius = 3; // Initial radius.
-    this.max_radius = max_radius;
 
     this.createCircle = function(color, radius) {
         let circle = new Graphics();
@@ -117,4 +111,16 @@ function Wave(x_coordinate, y_coordinate, max_radius) {
         return [this.outerCircle];
     }
 
+}
+
+function generateRandomMaximumRadius() {
+    let max_radius = Math.floor(Math.random() * 100 + 50);
+    return max_radius;
+}
+
+function generateRandomCoordinates() {
+    let x_coordinate = Math.floor(Math.random() * appWidth);
+    let y_coordinate = Math.floor(Math.random() * appHeight);
+
+    return [x_coordinate, y_coordinate];
 }
