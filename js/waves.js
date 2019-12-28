@@ -44,6 +44,7 @@ function setup() {
 function gameloop(delta) {
 
     // Make the waves grow no more than their maximum size.
+    // Remove them once they reach maximum size.
     for (let wave of waves) {
         if (wave.radius < wave.max_radius ) {
             wave.expand();
